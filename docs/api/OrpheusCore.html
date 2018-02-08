@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Interface ISchemaTable
+    <title>Namespace OrpheusCore
    | Orpheus ORM </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Interface ISchemaTable
+    <meta name="title" content="Namespace OrpheusCore
    | Orpheus ORM ">
     <meta name="generator" content="docfx 2.25.2.0">
     
@@ -77,54 +77,53 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-12">
-            <article class="content wrap" id="_content" data-uid="OrpheusInterfaces.ISchemaTable">
+            <article class="content wrap" id="_content" data-uid="OrpheusCore">
   
-  
-  <h1 id="OrpheusInterfaces_ISchemaTable" data-uid="OrpheusInterfaces.ISchemaTable" class="text-break">Interface ISchemaTable
+  <h1 id="OrpheusCore" data-uid="OrpheusCore" class="text-break">Namespace OrpheusCore
   </h1>
-  <div class="markdown level0 summary"><p>Create table schema interface.</p>
-</div>
+  <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="OrpheusInterfaces.html">OrpheusInterfaces</a></h6>
-  <h6><strong>Assembly</strong>: OrpheusInterfaces.dll</h6>
-  <h5 id="OrpheusInterfaces_ISchemaTable_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public interface ISchemaTable : ISchemaDataObject, ISchemaObject</code></pre>
-  </div>
-  <h3 id="properties">Properties
+  <div class="markdown level0 remarks"></div>
+    <h3 id="classes">Classes
   </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/gtrifidis/OrpheusORM/new/master/apiSpec/new?filename=OrpheusInterfaces_ISchemaTable_JoinDefinition.md&amp;value=---%0Auid%3A%20OrpheusInterfaces.ISchemaTable.JoinDefinition%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/gtrifidis/OrpheusORM/blob/master/OrpheusInterfaces/Interfaces/SchemaBuilder/ISchemaObject.cs/#L265">View Source</a>
-  </span>
-  <a id="OrpheusInterfaces_ISchemaTable_JoinDefinition_" data-uid="OrpheusInterfaces.ISchemaTable.JoinDefinition*"></a>
-  <h4 id="OrpheusInterfaces_ISchemaTable_JoinDefinition" data-uid="OrpheusInterfaces.ISchemaTable.JoinDefinition">JoinDefinition</h4>
-  <div class="markdown level1 summary"><p>Join definition. Defines how schema objects can be joined.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">ISchemaJoinDefinition JoinDefinition { get; set; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="OrpheusInterfaces.ISchemaJoinDefinition.html">ISchemaJoinDefinition</a></td>
-        <td><p>Join definition</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
+      <h4><a class="xref" href="OrpheusCore.OrpheusDatabase.html">OrpheusDatabase</a></h4>
+      <section><p>Orpheus database.</p>
+</section>
+      <h4><a class="xref" href="OrpheusCore.OrpheusModelHelper.html">OrpheusModelHelper</a></h4>
+      <section><p>OrpheusModelHelper is a helper class that analyzes a model and can create primary-foreign keys and/or schema fields, when creating a schema.</p>
+</section>
+      <h4><a class="xref" href="OrpheusCore.OrpheusModule.html">OrpheusModule</a></h4>
+      <section><p>OrpheusModule class represents a logical division and grouping of a set of tables.
+For example you can an OrdersModule, which will be comprised from many different tables.
+Orders,Customers,OrderLines etc. When you Save from the module level, all pending records in tables that belong to the module,
+will be saved as well. All master-detail relationships and keys will be updated automatically.</p>
+</section>
+      <h4><a class="xref" href="OrpheusCore.OrpheusModuleDefinition.html">OrpheusModuleDefinition</a></h4>
+      <section><p>The OrpheusModuleDefinition can save and load a module definition. A module definition, includes relationship between the module tables
+and that is required for a module to be functional. <a class="xref" href="OrpheusInterfaces.IOrpheusModule.html">IOrpheusModule</a></p>
+</section>
+      <h4><a class="xref" href="OrpheusCore.OrpheusTable-1.html">OrpheusTable&lt;T&gt;</a></h4>
+      <section><p>Orpheus table is the core component of an Orpheus module. Every module needs to have at least 1 table.
+Holds all the data of the connected table.</p>
+</section>
+      <h4><a class="xref" href="OrpheusCore.OrpheusTableKeyField.html">OrpheusTableKeyField</a></h4>
+      <section></section>
+      <h4><a class="xref" href="OrpheusCore.OrpheusTableOptions.html">OrpheusTableOptions</a></h4>
+      <section><p>Represents <a class="xref" href="OrpheusInterfaces.IOrpheusTable.html">IOrpheusTable</a> options, which can be used to instantiate a table.</p>
+</section>
+    <h3 id="enums">Enums
+  </h3>
+      <h4><a class="xref" href="OrpheusCore.ModifiedRecordAction.html">ModifiedRecordAction</a></h4>
+      <section><p>Modified record action.</p>
+</section>
+    <h3 id="delegates">Delegates
+  </h3>
+      <h4><a class="xref" href="OrpheusCore.ModelProperty.html">ModelProperty</a></h4>
+      <section><p>Helper delegate, to be called when iterating through model&apos;s properties.</p>
+</section>
+      <h4><a class="xref" href="OrpheusCore.PropertyAttribute.html">PropertyAttribute</a></h4>
+      <section><p>Helper delegate, to be called when iterating through property&apos;s attributes.</p>
+</section>
 </article>
           </div>
         </div>

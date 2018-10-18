@@ -1,24 +1,27 @@
-﻿namespace OrpheusAttributes
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace OrpheusAttributes
 {
     /// <summary>
     /// Default value attribute.
     /// Decorate a property with attribute to set it's default value.
     /// </summary>
-    /// <seealso cref="OrpheusAttributes.OrpheusBaseAttribute" />
     public class DefaultValue : OrpheusBaseAttribute
     {
         /// <summary>
-        /// Gets the value.
+        /// The default value.
         /// </summary>
-        /// <value>
-        /// The value.
-        /// </value>
+        /// <returns>Default value</returns>
         public object Value { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultValue"/> class.
+        /// DefaultValue attribute constructor.
         /// </summary>
-        /// <param name="value">The value.</param>
+        /// <param name="value">Property's default value</param>
         public DefaultValue(object value)
         {
             this.Value = value;

@@ -7,48 +7,50 @@ namespace OrpheusAttributes
     /// Primary key constraint attribute.
     /// Decorate a property with attribute to create a foreign key constraint on a schema object.
     /// </summary>
-    /// <seealso cref="OrpheusAttributes.OrpheusBaseAttribute" />
-    /// <seealso cref="OrpheusInterfaces.Interfaces.Attributes.IForeignKey" />
     public class ForeignKey : OrpheusBaseAttribute, IForeignKey
     {
-        /// <value>
+        /// <summary>
         /// The foreign key field name.
-        /// </value>
+        /// </summary>
         public string Field { get; set; }
 
-        /// <value>
+        /// <summary>
         /// The reference table.
-        /// </value>
+        /// </summary>
+        /// <returns>The referenced table name</returns>
         public string ReferenceTable { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// The reference table key.
-        /// </value>
+        /// </summary>
+        /// <returns>The referenced table key</returns>
         public string ReferenceField { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Set to true to enable cascade delete.
-        /// </value>
+        /// </summary>
+        /// <returns>Delete cascade flag</returns>
         public bool OnDeleteCascade { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Set to true to enable cascade update.
-        /// </value>
+        /// </summary>
+        /// <returns>Update cascade flag</returns>
         public bool OnUpdateCascade { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Optional. Set the schema name of the reference table, if there is one.
-        /// </value>
+        /// </summary>
         public string SchemaName { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ForeignKey"/> class.
+        /// Foreign key attribute constructor.
         /// </summary>
-        /// <param name="referenceTable">The reference table.</param>
-        /// <param name="referenceField">The reference field.</param>
-        /// <param name="schemaName">Name of the schema.</param>
-        /// <param name="onDeleteCascade">if set to <c>true</c> [on delete cascade].</param>
-        /// <param name="onUpdateCascade">if set to <c>true</c> [on update cascade].</param>
+        /// <param name="referenceTable"></param>
+        /// <param name="referenceField"></param>
+        /// <param name="schemaName"></param>
+        /// <param name="onDeleteCascade"></param>
+        /// <param name="onUpdateCascade"></param>
         public ForeignKey(string referenceTable, string referenceField,string schemaName = null,bool onDeleteCascade = false, bool onUpdateCascade = false)
         {
             this.ReferenceField = referenceField;
@@ -59,13 +61,13 @@ namespace OrpheusAttributes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ForeignKey"/> class.
+        /// Foreign key attribute constructor.
         /// </summary>
-        /// <param name="referenceTableType">Type of the reference table.</param>
-        /// <param name="referenceField">The reference field.</param>
-        /// <param name="schemaName">Name of the schema.</param>
-        /// <param name="onDeleteCascade">if set to <c>true</c> [on delete cascade].</param>
-        /// <param name="onUpdateCascade">if set to <c>true</c> [on update cascade].</param>
+        /// <param name="referenceTableType">The referenced table type</param>
+        /// <param name="referenceField">The referenced field name</param>
+        /// <param name="schemaName">Schema name</param>
+        /// <param name="onDeleteCascade">Delete cascade flag</param>
+        /// <param name="onUpdateCascade">Update cascade flag</param>
         public ForeignKey(Type referenceTableType, string referenceField,string schemaName = null, bool onDeleteCascade = false, bool onUpdateCascade = false):this(referenceTableType.Name,referenceField,schemaName,onDeleteCascade,onUpdateCascade)
         {
         }

@@ -99,14 +99,14 @@ namespace OrpheusCore.SchemaBuilder
         /// <returns>Instance of the Orpheus Database</returns>
         public IOrpheusDatabase DB { get { return this.db; } }
 
-        /// <value>
+        /// <summary>
         /// List of schema objects. <see cref="ISchemaObject"/>
-        /// </value>
+        /// </summary>
         public List<ISchemaObject> SchemaObjects { get; set; }
 
-        /// <value>
+        /// <summary>
         /// List of reference schemas
-        /// </value>
+        /// </summary>
         public List<ISchema> ReferencedSchemas { get; set; }
 
         /// <summary>
@@ -133,9 +133,9 @@ namespace OrpheusCore.SchemaBuilder
         /// <returns>Schema unique id</returns>
         public Guid Id { get { return this.id; } }
 
-        /// <value>
+        /// <summary>
         /// Orpheus schema objects table.
-        /// </value>
+        /// </summary>
         public string SchemaObjectsTable
         {
             get
@@ -143,9 +143,9 @@ namespace OrpheusCore.SchemaBuilder
                 return OrpheusSchemaConstants.SchemaObjectPrefix + OrpheusSchemaConstants.SchemaObjectsTable;
             }
         }
-        /// <value>
+        /// <summary>
         /// Orpheus schema info table.
-        /// </value>
+        /// </summary>
         public string SchemaInfoTable
         {
             get
@@ -168,9 +168,9 @@ namespace OrpheusCore.SchemaBuilder
 
         #endregion
 
-        #region constructors        
+        #region constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="Schema"/> class.
+        /// Parameterless constructor.
         /// </summary>
         public Schema()
         {
@@ -178,25 +178,25 @@ namespace OrpheusCore.SchemaBuilder
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Schema"/> class.
+        /// Creates an Orpheus schema.
         /// </summary>
-        /// <param name="db">The database.</param>
-        /// <param name="description">The description.</param>
-        /// <param name="version">The version.</param>
-        /// <param name="id">The identifier.</param>
-        /// <param name="name">Schema name. If the DB engine is SQL server, and the name value is set, it will be used as SCHEMA name.</param>
+        /// <param name="db">Database instance that the schema belongs to.</param>
+        /// <param name="description">Schema description.</param>
+        /// <param name="version">Schema version.</param>
+        /// <param name="id">Schema unique id</param>
+        /// <param name="name">Schema name. If the DB engine is SQL server, name value if set, will be used as SCHEMA name.</param>
         public Schema(IOrpheusDatabase db,string description, double version, Guid id, string name = null):this(db,description,version,id)
         {
             this.Name = name;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Schema"/> class.
+        /// Creates an Orpheus schema.
         /// </summary>
-        /// <param name="db">The database.</param>
-        /// <param name="description">The description.</param>
-        /// <param name="version">The version.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="db">Database instance that the schema belongs to.</param>
+        /// <param name="description">Schema description.</param>
+        /// <param name="version">Schema version.</param>
+        /// <param name="id">Schema unique id</param>
         public Schema(IOrpheusDatabase db, string description, double version, Guid id)
         {
             this.db = db;
@@ -209,14 +209,12 @@ namespace OrpheusCore.SchemaBuilder
         }
         #endregion
 
-        #region public methods        
+        #region public methods
         /// <summary>
-        /// Adds a schema object to the list.
+        /// Creates a schema object.
         /// </summary>
         /// <param name="schemaObject"></param>
-        /// <returns>
-        /// The schema object that was added
-        /// </returns>
+        /// <returns></returns>
         public ISchemaObject AddSchemaObject(ISchemaObject schemaObject)
         {
             if(schemaObject != null)
@@ -231,9 +229,9 @@ namespace OrpheusCore.SchemaBuilder
         /// <summary>
         /// Creates a schema table and initializes table-name, dependencies and generating fields from a model, if provided.
         /// </summary>
-        /// <param name="tableName">Table name</param>
-        /// <param name="dependencies">List of schema objects, that this objects depends upon</param>
-        /// <param name="model">Model will be used to auto-generate fields, primary keys etc, for the schema object</param>
+        /// <param name="tableName"></param>
+        /// <param name="dependencies"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         public ISchemaTable AddSchemaTable(string tableName, List<ISchemaObject> dependencies = null, object model = null)
         {
@@ -254,10 +252,10 @@ namespace OrpheusCore.SchemaBuilder
         /// <summary>
         /// Creates a schema table and initializes table-name, dependencies and generating fields from a model, if provided.
         /// </summary>
-        /// <param name="model">Model will be used to auto-generate fields, primary keys etc, for the schema object</param>
-        /// <param name="dependencies">List of schema objects, that this objects depends upon</param>
+        /// <param name="dependencies"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        public ISchemaTable AddSchemaTable(object model, List<ISchemaObject> dependencies = null)
+        public  ISchemaTable AddSchemaTable(object model, List<ISchemaObject> dependencies = null)
         {
             return this.AddSchemaTable(model.GetType().Name, dependencies, model);
         }
@@ -265,8 +263,8 @@ namespace OrpheusCore.SchemaBuilder
         /// <summary>
         /// Creates a schema table and initializes table-name, dependencies and generating fields from a model, if provided.
         /// </summary>
-        /// <param name="modelType">Model type will be used to auto-generate fields, primary keys etc, for the schema object</param>
-        /// <param name="dependencies">List of schema objects, that this objects depends upon</param>
+        /// <param name="dependencies"></param>
+        /// <param name="modelType"></param>
         /// <returns></returns>
         public ISchemaTable AddSchemaTable(Type modelType, List<ISchemaObject> dependencies = null)
         {
@@ -274,12 +272,10 @@ namespace OrpheusCore.SchemaBuilder
             return this.AddSchemaTable(modelInstance, dependencies);
         }
 
-
         /// <summary>
         /// Creates a schema table and initializes table-name, dependencies and generating fields from a model, if provided.
         /// </summary>
-        /// <typeparam name="T">Schema table type</typeparam>
-        /// <param name="dependencies">The dependencies.</param>
+        /// <param name="dependencies"></param>
         /// <returns></returns>
         public ISchemaTable AddSchemaTable<T>(List<ISchemaObject> dependencies = null) where T:class
         {
@@ -408,7 +404,7 @@ namespace OrpheusCore.SchemaBuilder
         /// <summary>
         /// Loads schema definition from a file.
         /// </summary>
-        /// <param name="fileName">The filename.</param>
+        /// <param name="fileName"></param>
         public void LoadFromFile(string fileName)
         {
             XDocument xDoc = XDocument.Load(fileName);
@@ -428,7 +424,7 @@ namespace OrpheusCore.SchemaBuilder
         /// <summary>
         /// Saves schema definition to a file. If the file exists it will overwrite it.
         /// </summary>
-        /// <param name="fileName">The filename.</param>
+        /// <param name="fileName"></param>
         public void SaveToFile(string fileName)
         {
             XDocument xDoc = null;
@@ -452,12 +448,10 @@ namespace OrpheusCore.SchemaBuilder
         }
 
         /// <summary>
-        /// Returns the guid of the schema object it is created.
+        /// 
         /// </summary>
-        /// <param name="schemaObject">Schema object to be checked if it exists</param>
-        /// <returns>
-        /// The schema object unique id
-        /// </returns>
+        /// <param name="schemaObject"></param>
+        /// <returns></returns>
         public Guid SchemaObjectExists(ISchemaObject schemaObject)
         {
             var result = Guid.Empty;

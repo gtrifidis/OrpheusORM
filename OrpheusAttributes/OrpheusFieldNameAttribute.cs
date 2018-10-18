@@ -1,24 +1,24 @@
-﻿namespace OrpheusAttributes
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace OrpheusAttributes
 {
     /// <summary>
     /// FieldName attribute. Decorate a model property with this attribute,
     /// to explicitly define the corresponding field name in the db table.
     /// </summary>
-    /// <seealso cref="OrpheusAttributes.OrpheusBaseAttribute" />
     public class FieldName : OrpheusBaseAttribute
     {
         /// <summary>
-        /// Gets the name.
+        /// Field name.
         /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
         public string Name { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FieldName"/> class.
+        /// Field name constructor.
         /// </summary>
-        /// <param name="fieldName">Name of the field.</param>
+        /// <param name="fieldName">Field name</param>
         public FieldName(string fieldName)
         {
             this.Name = fieldName;

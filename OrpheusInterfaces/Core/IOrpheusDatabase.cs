@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using OrpheusInterfaces.Configuration;
+﻿using OrpheusInterfaces.Configuration;
 using OrpheusInterfaces.Schema;
 using System;
 using System.Collections.Generic;
@@ -15,13 +14,12 @@ namespace OrpheusInterfaces.Core
         /// <summary>
         /// Connects to the database engine defined in the connection string.
         /// </summary>
-        /// <param name="connectionString">The connection string.</param>
         void Connect(string connectionString = null);
 
         /// <summary>
         /// Connects to the database engine defined in the configuration object.
         /// </summary>
-        /// <param name="databaseConnectionConfiguration">The database connection configuration.</param>
+        /// <param name="databaseConnectionConfiguration"></param>
         void Connect(IDatabaseConnectionConfiguration databaseConnectionConfiguration);
 
         /// <summary>
@@ -35,9 +33,9 @@ namespace OrpheusInterfaces.Core
         /// <returns>True if database is connected</returns>
         bool Connected { get; }
 
-        /// <value>
+        /// <summary>
         /// Last active transaction.
-        /// </value>
+        /// </summary>
         IDbTransaction LastActiveTransaction { get; }
 
         /// <summary>
@@ -144,8 +142,7 @@ namespace OrpheusInterfaces.Core
         /// <summary>
         /// Creates a table and sets its database,using the type name as the table name.
         /// </summary>
-        /// <typeparam name="T">Table model type.</typeparam>
-        /// <returns></returns>
+        /// <returns>An Orpheus table instance.</returns>
         IOrpheusTable<T> CreateTable<T>();
 
         /// <summary>
@@ -208,33 +205,28 @@ namespace OrpheusInterfaces.Core
         /// <returns>True if command was successfully executed.</returns>
         bool ExecuteDDL(string DDLCommand);
 
-        /// <value>
+        /// <summary>
         /// Exposing the underlying IDbConnection instance.
-        /// </value>
+        /// </summary>
         IDbConnection DbConnection { get; }
 
-        /// <value>
+        /// <summary>
         /// Returns the row count of a table.
-        /// </value>
-        /// <param name="tableName">Name of the table.</param>
+        /// </summary>
+        /// <param name="tableName"></param>
         /// <returns></returns>
         long GetTableCount(string tableName);
 
-        /// <value>
+        /// <summary>
         /// Returns the row count of a table.
-        /// </value>
-        /// <typeparam name="T">The table type name, will be used as the table name.</typeparam>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         long GetTableCount<T>();
 
-        /// <value>
+        /// <summary>
         /// Database connection configuration.
-        /// </value>
+        /// </summary>
         IDatabaseConnectionConfiguration DatabaseConnectionConfiguration { get; set; }
-
-        /// <value>
-        /// Logger instance.
-        /// </value>
-        ILogger Logger { get; }
     }
 }

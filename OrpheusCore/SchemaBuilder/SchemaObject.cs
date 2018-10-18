@@ -111,9 +111,9 @@ namespace OrpheusCore.SchemaBuilder
         #endregion
 
         #region public properties
-        /// <value>
+        /// <summary>
         /// The SQL name for the schema. This will be used to actually create the schema object in the database.
-        /// </value>
+        /// </summary>
         public string SQLName
         {
             get
@@ -126,35 +126,35 @@ namespace OrpheusCore.SchemaBuilder
             }
         }
 
-        /// <value>
+        /// <summary>
         /// Overrides any schema object configuration and executes RawDLL contents.
-        /// </value>
+        /// </summary>
         public string RawDDL { get; set; }
 
-        /// <value>
+        /// <summary>
         /// The Schema where the schema object belongs to.
-        /// </value>
+        /// </summary>
         public ISchema Schema { get; set; }
 
-        /// <value>
+        /// <summary>
         /// Defines the behavior of execute. <see cref="DDLAction"/>
-        /// </value>
+        /// </summary>
         public DDLAction Action { get; set; }
 
-        /// <value>
+        /// <summary>
         /// An Id to uniquely identify this schema object.
-        /// </value>
+        /// </summary>
         public Guid UniqueKey { get; set; }
 
-        /// <value>
+        /// <summary>
         /// A list of other schema objects that this instance depends upon. Any schema object in this list
         /// will be executed before, to make sure that on the time of creation they will be available/created.
-        /// </value>
+        /// </summary>
         public List<ISchemaObject> SchemaObjectsThatIDepend { get; set; }
 
-        /// <value>
+        /// <summary>
         /// A list of other schema objects that depend on this instance.
-        /// </value>
+        /// </summary>
         public List<ISchemaObject> SchemaObjectsThatDependOnMe { get; set; }
 
         /// <summary>
@@ -163,14 +163,14 @@ namespace OrpheusCore.SchemaBuilder
         /// <returns>Returns <see cref="SchemaObjectType"/></returns>
         public SchemaObjectType GetSchemaType() { return this.getType(); }
 
-        /// <value>
+        /// <summary>
         /// Flag to indicate if the schema object has actually been created in the database.
-        /// </value>
+        /// </summary>
         public bool IsCreated { get; protected set; }
 
-        /// <value>
+        /// <summary>
         /// The schema object alias name.
-        /// </value>
+        /// </summary>
         public string AliasName { get; set; }
 
         #endregion
@@ -185,7 +185,7 @@ namespace OrpheusCore.SchemaBuilder
         /// <summary>
         /// Adds a dependency to a schema object.
         /// </summary>
-        /// <param name="schemaObject">The schema object.</param>
+        /// <param name="schemaObject"></param>
         public void AddDependency(ISchemaObject schemaObject)
         {
             if (schemaObject != null)
@@ -196,10 +196,9 @@ namespace OrpheusCore.SchemaBuilder
         }
 
         /// <summary>
-        /// Adds a dependency to a schema object based on the model type.
+        /// Adds a dependency to a schema object based on the model.
         /// </summary>
-        /// <param name="modelType">The model type.</param>
-        /// <exception cref="Exception">Model [model name] has been registered in more than schema's</exception>
+        /// <param name="modelType"></param>
         public void AddDependency(Type modelType)
         {
             if (modelType != null)
@@ -246,7 +245,6 @@ namespace OrpheusCore.SchemaBuilder
         /// <summary>
         /// Adds a dependency to a schema object based on the model type.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         public void AddDependency<T>() where T : class
         {
             this.AddDependency(typeof(T));
@@ -263,9 +261,9 @@ namespace OrpheusCore.SchemaBuilder
         public virtual void Drop() { }
         #endregion
 
-        #region constructors        
+        #region constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="SchemaObject"/> class.
+        /// Schema object parameterless constructor.
         /// </summary>
         public SchemaObject()
         {
@@ -436,12 +434,11 @@ namespace OrpheusCore.SchemaBuilder
 
         #endregion
 
-        #region schema fields and constraints                
+        #region schema fields and constraints
         /// <summary>
         /// Creates fields from a given model.
-        /// Supports OrpheusAttributes attributes
-        /// <param name="model">Instance of model</param>
         /// </summary>
+        /// <param name="model"></param>
         public void CreateFieldsFromModel(object model)
         {
             this.CreateFieldsFromModel(model.GetType());
@@ -479,14 +476,14 @@ namespace OrpheusCore.SchemaBuilder
 
 
         /// <summary>
-        /// Creates and adds a field to the field list.
+        /// Adds a field.
         /// </summary>
-        /// <param name="name">Field name</param>
-        /// <param name="dataType">Field data type</param>
-        /// <param name="nullable">Nullable</param>
-        /// <param name="defaultValue">Field default value</param>
-        /// <param name="size">Field size</param>
-        /// <param name="alias">Field alias</param>
+        /// <param name="name"></param>
+        /// <param name="dataType"></param>
+        /// <param name="nullable"></param>
+        /// <param name="defaultValue"></param>
+        /// <param name="size"></param>
+        /// <param name="alias"></param>
         /// <returns></returns>
         public ISchemaField AddField(string name, string dataType, bool nullable = true, string defaultValue = null, string size = null, string alias = null)
         {
@@ -507,9 +504,9 @@ namespace OrpheusCore.SchemaBuilder
         /// <summary>
         /// Adds a primary key constraint.
         /// </summary>
-        /// <param name="name">Constraint name</param>
-        /// <param name="fields">Constraint fields</param>
-        /// <param name="sort">Constraint sort</param>
+        /// <param name="name"></param>
+        /// <param name="fields"></param>
+        /// <param name="sort"></param>
         /// <returns></returns>
         public IPrimaryKeySchemaConstraint AddPrimaryKeyConstraint(string name, List<string> fields, SchemaSort sort = SchemaSort.ssAsc)
         {
@@ -522,14 +519,14 @@ namespace OrpheusCore.SchemaBuilder
         }
 
         /// <summary>
-        /// Adds the foreign key constraint.
+        /// Adds a foreign key constraint.
         /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="fields">The fields.</param>
-        /// <param name="foreignKeySchemaObject">The foreign key schema object.</param>
-        /// <param name="foreignKeySchemaFields">The foreign key schema fields.</param>
-        /// <param name="onCascadeDelete">if set to <c>true</c> [on cascade delete].</param>
-        /// <param name="onUpdateCascade">if set to <c>true</c> [on update cascade].</param>
+        /// <param name="name"></param>
+        /// <param name="fields"></param>
+        /// <param name="foreignKeySchemaObject"></param>
+        /// <param name="foreignKeySchemaFields"></param>
+        /// <param name="onCascadeDelete"></param>
+        /// <param name="onUpdateCascade"></param>
         /// <returns></returns>
         public IForeignKeySchemaConstraint AddForeignKeyConstraint(string name, List<string> fields, string foreignKeySchemaObject, List<string> foreignKeySchemaFields,
             bool onCascadeDelete = true, bool onUpdateCascade = true)
@@ -548,11 +545,9 @@ namespace OrpheusCore.SchemaBuilder
         /// <summary>
         /// Adds a unique key constraint.
         /// </summary>
-        /// <param name="name">Constraint name</param>
-        /// <param name="fields">Constraint fields</param>
-        /// <returns>
-        /// An IUniqueKeySchemaConstraint
-        /// </returns>
+        /// <param name="name"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
         public IUniqueKeySchemaConstraint AddUniqueKeyConstraint(string name, List<string> fields)
         {
             var ukConstraint = new UniqueKeySchemaConstraint(this);
@@ -566,12 +561,12 @@ namespace OrpheusCore.SchemaBuilder
 
         #endregion
 
-        #region data related methods        
+        #region data related methods
         /// <summary>
-        /// Optional data to initialize a schema object. Practically applicable only to a table.
+        /// Sets seed data to seed the schema object when constructed.
         /// </summary>
-        /// <typeparam name="T">The data type.</typeparam>
-        /// <param name="data">The data.</param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
         public void SetData<T>(List<T> data)
         {
             var tablePrimaryKeyConstraints = this.Constraints.FindAll(constraint =>
@@ -601,12 +596,10 @@ namespace OrpheusCore.SchemaBuilder
         }
 
         /// <summary>
-        /// Returns the seed data for the table if defined.
+        /// Returns the seed data.
         /// </summary>
-        /// <typeparam name="T">Schema object model type</typeparam>
-        /// <returns>
-        /// Schema object's data
-        /// </returns>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public List<T> GetData<T>()
         {
             return (List<T>)this.dataToSeed;
@@ -779,9 +772,9 @@ namespace OrpheusCore.SchemaBuilder
 
         #endregion
 
-        #region constructors        
+        #region constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="SchemaDataObject"/> class.
+        /// Constructor.
         /// </summary>
         public SchemaDataObject()
         {
@@ -919,13 +912,13 @@ namespace OrpheusCore.SchemaBuilder
                 this.seedDataTable.ExecuteInserts(cmd.Transaction);
         }
 
-        /// <value>
+        /// <summary>
         /// Table's Join definition. How and if this table is connected to other tables.
-        /// </value>
+        /// </summary>
         public ISchemaJoinDefinition JoinDefinition { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SchemaObjectTable"/> class.
+        /// Constructor.
         /// </summary>
         public SchemaObjectTable() { }
     }
@@ -935,9 +928,9 @@ namespace OrpheusCore.SchemaBuilder
     /// </summary>
     public class SchemaObjectViewTable: SchemaObjectTable, ISchemaViewTable
     {
-        /// <value>
+        /// <summary>
         /// Override for the schema name.
-        /// </value>
+        /// </summary>
         public string SchemaName { get; set; }
 
         /// <summary>
@@ -961,24 +954,24 @@ namespace OrpheusCore.SchemaBuilder
     /// </summary>
     public class SchemaObjectView: SchemaDataObject, ISchemaView
     {
-        /// <value>
+        /// <summary>
         /// View's Join definition. How and if this table is connected to other tables.
-        /// </value>
+        /// </summary>
         public ISchemaJoinDefinition JoinDefinition { get; set; }
 
-        /// <value>
+        /// <summary>
         /// List of schema table to be included in the view.
-        /// </value>
+        /// </summary>
         public List<ISchemaTable> JoinSchemaObjects { get; set; }
 
-        /// <value>
+        /// <summary>
         /// The main table around which the view will be built.
-        /// </value>
+        /// </summary>
         public string TableName { get; set; }
 
-        /// <value>
+        /// <summary>
         /// SQL server specific option, to create views with schema binding, in order to be able to create indexes on the view itself.
-        /// </value>
+        /// </summary>
         public bool WithSchemaBinding { get; set; }
 
         /// <summary>
@@ -1082,7 +1075,7 @@ namespace OrpheusCore.SchemaBuilder
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SchemaObjectView"/> class.
+        /// Constructor.
         /// </summary>
         public SchemaObjectView(){ }
     }

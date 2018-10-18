@@ -10,54 +10,54 @@ namespace OrpheusInterfaces.Core
     /// </summary>
     public interface IOrpheusModelHelper
     {
-        /// <value>
+        /// <summary>
         /// Model's primary keys.
-        /// </value>
+        /// </summary>
         Dictionary<string, IPrimaryKey> PrimaryKeys { get; }
 
-        /// <value>
+        /// <summary>
         /// Model's foreign keys.
-        /// </value>
+        /// </summary>
         Dictionary<string, IForeignKey> ForeignKeys { get; }
 
-        /// <value>
+        /// <summary>
         /// Model's unique keys.
-        /// </value>
+        /// </summary>
         Dictionary<string, IUniqueKey> UniqueKeys { get; }
 
-        /// <value>
+        /// <summary>
         /// Model's composite primary keys.
-        /// </value>
+        /// </summary>
         List<IOrpheusBaseCompositeKeyAttribute> PrimaryCompositeKeys { get; }
 
-        /// <value>
+        /// <summary>
         /// Model's composite unique keys.
-        /// </value>
+        /// </summary>
         List<IOrpheusBaseCompositeKeyAttribute> UniqueCompositeKeys { get; }
 
-        /// <value>
+        /// <summary>
         /// Model properties that are not part of the schema.
-        /// </value>
+        /// </summary>
         List<string> SchemaIgnoreProperties { get;  }
 
-        /// <value>
+        /// <summary>
         /// Model properties that have an explicitly set field name.
-        /// </value>
+        /// </summary>
         Dictionary<string, string> CustomFieldNameProperties { get;  }
 
-        /// <value>
+        /// <summary>
         /// Model's properties.
-        /// </value>
+        /// </summary>
         PropertyInfo[] ModelProperties { get; }
 
-        /// <value>
+        /// <summary>
         /// Model's SQLName. Defaults to the model's type name.
-        /// </value>
+        /// </summary>
         string SQLName { get;  }
 
-        /// <value>
+        /// <summary>
         /// SQL server's schema name.
-        /// </value>
+        /// </summary>
         string SQLServerSchemaName { get;  }
 
         /// <summary>

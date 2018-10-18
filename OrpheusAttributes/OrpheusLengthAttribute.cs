@@ -1,4 +1,10 @@
-﻿namespace OrpheusAttributes
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace OrpheusAttributes
 {
     /// <summary>
     /// Length attribute.
@@ -8,17 +14,15 @@
     public class Length : OrpheusBaseAttribute
     {
         /// <summary>
-        /// Gets the value.
+        /// The maximum length value.
         /// </summary>
-        /// <value>
-        /// The value.
-        /// </value>
+        /// <returns>Length</returns>
         public int Value { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Length"/> class.
+        /// Length attribute constructor.
         /// </summary>
-        /// <param name="value">The value.</param>
+        /// <param name="value">The max length value</param>
         public Length(int value)
         {
             this.Value = value;

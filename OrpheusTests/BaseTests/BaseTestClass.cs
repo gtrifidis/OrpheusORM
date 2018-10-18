@@ -142,8 +142,6 @@ namespace OrpheusTests
                                 OrpheusCore.Configuration.ConfigurationManager.InitializeConfiguration(
                                     this.CreateConfiguration(this.assemblyDirectory + @"\" + "OrpheusSQLServerConfig.json")
                                     );
-                                this.db = OrpheusCore.ServiceProvider.OrpheusServiceProvider.Resolve<IOrpheusDatabase>();
-                                this.db.DatabaseConnectionConfiguration = OrpheusCore.Configuration.ConfigurationManager.Configuration.DatabaseConnections.FirstOrDefault(c => c.ConfigurationName.ToLower() == "default").Clone();
                                 break;
                             }
                         case DbEngine.dbMySQL:
@@ -151,11 +149,11 @@ namespace OrpheusTests
                                 OrpheusCore.Configuration.ConfigurationManager.InitializeConfiguration(
                                     this.CreateConfiguration(this.assemblyDirectory + @"\" + "OrpheusMySQLServerConfig.json")
                                     );
-                                this.db = OrpheusCore.ServiceProvider.OrpheusServiceProvider.Resolve<IOrpheusDatabase>();
-                                this.db.DatabaseConnectionConfiguration = OrpheusCore.Configuration.ConfigurationManager.Configuration.DatabaseConnections.FirstOrDefault(c => c.ConfigurationName.ToLower() == "default");
                                 break;
                             }
                     }
+                    this.db = OrpheusCore.ServiceProvider.OrpheusServiceProvider.Resolve<IOrpheusDatabase>();
+                    this.db.DatabaseConnectionConfiguration = OrpheusCore.Configuration.ConfigurationManager.Configuration.DatabaseConnections.FirstOrDefault(c=>c.ConfigurationName == "Default");
                 }
                 return this.db;
             }

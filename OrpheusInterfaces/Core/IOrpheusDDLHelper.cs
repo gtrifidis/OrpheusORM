@@ -371,9 +371,5 @@ namespace OrpheusInterfaces.Core
     /// </summary>
     public interface IMySQLServerDDLHelper : IOrpheusDDLHelper
     {
-        /// <summary>
-        /// SSL connection mode.
-        /// </summary>
-        string SSLMode { get; set; }
     }
 }

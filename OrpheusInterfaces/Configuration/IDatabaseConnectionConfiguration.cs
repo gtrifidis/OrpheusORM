@@ -5,40 +5,40 @@
     /// </summary>
     public interface IDatabaseConnectionConfiguration
     {
-        /// <value>
+        /// <summary>
         /// Database configuration name.
-        /// </value>
+        /// </summary>
         string ConfigurationName { get; set; }
 
-        /// <value>
+        /// <summary>
         /// The database name.
-        /// </value>
+        /// </summary>
         string DatabaseName { get; set; }
 
-        /// <value>
+        /// <summary>
         /// Server name or IP address.
-        /// </value>
+        /// </summary>
         string Server { get; set; }
 
-        /// <value>
+        /// <summary>
         /// User name.
-        /// </value>
+        /// </summary>
         string UserName { get; set; }
 
-        /// <value>
+        /// <summary>
         /// Password.
-        /// </value>
+        /// </summary>
         string Password { get; set; }
 
-        /// <value>
+        /// <summary>
         /// SQL Server specific.
-        /// </value>
+        /// </summary>
         bool UseIntegratedSecurity { get; set; }
 
-        /// <value>
+        /// <summary>
         /// Implicitly Orpheus makes a second connection to the database, to perform mainly schema related/DDL functionality.
         /// This boolean sets this second connection, integrated security setting.
-        /// </value>
+        /// </summary>
         bool UseIntegratedSecurityForServiceConnection { get; set; }
 
         /// <summary>
@@ -46,17 +46,5 @@
         /// </summary>
         /// <returns></returns>
         IDatabaseConnectionConfiguration Clone();
-
-        /// <value>
-        /// Implicitly Orpheus makes a second connection to the database, to perform mainly schema related/DDL functionality.
-        /// The ServiceUserName is the one that will be used for that connection.
-        /// </value>
-        string ServiceUserName { get; set; }
-
-        /// <value>
-        /// Implicitly Orpheus makes a second connection to the database, to perform mainly schema related/DDL functionality.
-        /// The ServicePassword is the one that will be used for that connection.
-        /// </value>
-        string ServicePassword { get; set; }
     }
 }

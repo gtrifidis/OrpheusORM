@@ -31,9 +31,9 @@ namespace OrpheusCore.SchemaBuilder
         /// <returns>Key field name of the main object</returns>
         public string KeyField { get; set; }
 
-        /// <value>
+        /// <summary>
         /// Table name to perform the join.
-        /// </value>
+        /// </summary>
         public string JoinTableName { get; set; }
     }
 }

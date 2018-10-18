@@ -6,16 +6,16 @@ using OrpheusInterfaces.Logging;
 using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace OrpheusLogger
 {
-    public class LogEntry : ILogEntry
+    internal class LogEntry : ILogEntry
     {
         public string Type { get; set; }
         public string Message { get; set; }
         public DateTime TimeStamp { get; set; }
-        public string StackTrace { get; set; }
+        public string SourceFile { get; set; }
+        public string LineNumber { get; set; }
     }
 
     /// <summary>
@@ -101,13 +101,14 @@ namespace OrpheusLogger
             }
         }
 
-        private string formatLogEntry(string entryType, string logEntry,string stackTrace = null)
+        private string formatLogEntry(string entryType, string logEntry, System.Diagnostics.StackFrame stackFrame = null)
         {
             var logEntryModel = new LogEntry() {
                 Type = entryType,
                 Message = logEntry,
                 TimeStamp = DateTime.Now,
-                StackTrace = stackTrace
+                SourceFile = stackFrame?.GetFileName(),
+                LineNumber = stackFrame?.GetFileLineNumber().ToString()
             };
             return JsonConvert.SerializeObject(logEntryModel);
         }
@@ -128,20 +129,6 @@ namespace OrpheusLogger
         {
             this.loggingConfiguration = loggingConfiguration;
         }
-
-        private string getCallStack()
-        {
-            var stackTrace = new System.Diagnostics.StackTrace(true);
-            var stringBuilder = new StringBuilder();
-            foreach (var f in stackTrace.GetFrames())
-            {
-                var fileName = f.GetFileName();
-                if (!String.IsNullOrEmpty(fileName))
-                    stringBuilder.AppendLine($"Method:{f.GetMethod().Name} File:{f.GetFileName()} Line:{f.GetFileLineNumber()} Column:{f.GetFileColumnNumber()}");
-            }
-            return stringBuilder.ToString();
-        }
-
         #endregion
 
         /// <summary>
@@ -185,36 +172,81 @@ namespace OrpheusLogger
         /// <param name="formatter">Formatter function</param>
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            if (this.IsEnabled(logLevel))
+            lock (this.objectLock)
             {
-                lock (this.objectLock)
+                if (!String.IsNullOrWhiteSpace(this.loggingConfiguration.FilePath))
                 {
-                    if (!String.IsNullOrWhiteSpace(this.loggingConfiguration.FilePath))
-                    {
-                        if (Path.GetFullPath(this.LogFileName).ToLower() != Path.GetFullPath(this.loggingConfiguration.FilePath).ToLower())
-                            this.initialize();
-                    }
-                    if (!File.Exists(this.logFileName) || this.needToStartNewFile())
+                    if (Path.GetFullPath(this.LogFileName).ToLower() != Path.GetFullPath(this.loggingConfiguration.FilePath).ToLower())
                         this.initialize();
-                    using (var fileStream = new FileStream(this.logFileName, FileMode.Append, FileAccess.Write, FileShare.Read))
+                }
+                if (!File.Exists(this.logFileName) ||  this.needToStartNewFile())
+                    this.initialize();
+                using(var fileStream = new FileStream(this.logFileName, FileMode.Append, FileAccess.Write, FileShare.Read))
+                {
+                    var logWriter = new StreamWriter(fileStream)
                     {
-                        var logWriter = new StreamWriter(fileStream)
+                        AutoFlush = true
+                    };
+                    var message = formatter(state, exception);
+
+                    try
+                    {
+                        if (string.IsNullOrEmpty(message) && exception == null)
+                            return;
+                        switch (logLevel)
                         {
-                            AutoFlush = true
-                        };
-                        var message = formatter(state, exception);
-                        try
-                        {
-                            if (string.IsNullOrEmpty(message) && exception == null)
-                                return;
-                            var callStack = logLevel == LogLevel.Debug ? this.getCallStack() : null;
-                            logWriter.WriteLine(this.formatLogEntry(logLevel.ToString(), message, callStack));
+                            case LogLevel.Information:
+                                {
+                                    if (this.IsEnabled(logLevel))
+                                        logWriter.WriteLine(this.formatLogEntry(information, message));
+                                    break;
+                                }
+                            case LogLevel.Warning:
+                                {
+                                    if (this.IsEnabled(logLevel))
+                                        logWriter.WriteLine(this.formatLogEntry(warning, message));
+                                    break;
+                                }
+                            case LogLevel.Critical:
+                                {
+                                    if (this.IsEnabled(logLevel))
+                                        logWriter.WriteLine(this.formatLogEntry(critical, message));
+                                    break;
+                                }
+                            case LogLevel.Error:
+                                {
+                                    if (this.IsEnabled(logLevel))
+                                        logWriter.WriteLine(this.formatLogEntry(error, message));
+                                    break;
+                                }
+                            case LogLevel.Debug:
+                                {
+                                    if (this.IsEnabled(logLevel))
+                                    {
+                                        var stackTrace = new System.Diagnostics.StackTrace(true);
+                                        var frame = stackTrace.GetFrame(2);
+                                        logWriter.WriteLine(this.formatLogEntry(debug,message,frame));
+                                    }
+                                    break;
+                                }
+                            case LogLevel.Trace:
+                                {
+                                    if (this.IsEnabled(logLevel))
+                                        logWriter.WriteLine(this.formatLogEntry(trace, message));
+                                    break;
+                                }
+                            default:
+                                {
+                                    if (this.IsEnabled(logLevel))
+                                        logWriter.WriteLine(this.formatLogEntry(information, message));
+                                    break;
+                                }
                         }
-                        finally
-                        {
-                            logWriter.Close();
-                            fileStream.Close();
-                        }
+                    }
+                    finally
+                    {
+                        logWriter.Close();
+                        fileStream.Close();
                     }
                 }
             }

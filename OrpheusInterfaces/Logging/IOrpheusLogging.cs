@@ -35,9 +35,14 @@ namespace OrpheusInterfaces.Logging
         DateTime TimeStamp { get; set; }
 
         /// <summary>
-        /// Stack trace
+        /// Log entry source file information.
         /// </summary>
-        string StackTrace { get; set; }
+        string SourceFile { get; set; }
+
+        /// <summary>
+        /// Log entry line number.
+        /// </summary>
+        string LineNumber { get; set; }
     }
 
     /// <summary>

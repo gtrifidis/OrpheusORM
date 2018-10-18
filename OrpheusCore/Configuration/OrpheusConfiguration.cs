@@ -14,10 +14,10 @@ namespace OrpheusCore.Configuration
         private static IConfiguration configurationInstance;
 
         /// <summary>
-        /// Initializes the configuration.
+        /// Initialize configuration.
         /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        /// <param name="services">The services.</param>
+        /// <param name="configuration"></param>
+        /// <param name="services"></param>
         public static void InitializeConfiguration(IConfiguration configuration, IServiceCollection services = null)
         {
             configurationInstance = configuration;
@@ -25,9 +25,9 @@ namespace OrpheusCore.Configuration
         }
 
         /// <summary>
-        /// Initializes the configuration.
+        /// Initialize configuration from a file.
         /// </summary>
-        /// <param name="configurationFile">The configuration file.</param>
+        /// <param name="configurationFile"></param>
         public static void InitializeConfiguration(string configurationFile)
         {
             try
@@ -44,20 +44,17 @@ namespace OrpheusCore.Configuration
         }
 
         /// <summary>
-        /// Saves the configuration.
+        /// Saves configuration to a file.
         /// </summary>
-        /// <param name="configurationFile">The configuration file.</param>
+        /// <param name="configurationFile"></param>
         public static void SaveConfiguration(string configurationFile)
         {
             File.WriteAllText(configurationFile,JsonConvert.SerializeObject(configurationInstance.Get<OrpheusConfiguration>()));
         }
 
         /// <summary>
-        /// Gets the configuration.
+        /// Current Orpheus Configuration
         /// </summary>
-        /// <value>
-        /// The configuration.
-        /// </value>
         public static OrpheusConfiguration Configuration
         {
             get
@@ -67,11 +64,8 @@ namespace OrpheusCore.Configuration
         }
 
         /// <summary>
-        /// Gets the configuration instance.
+        /// 
         /// </summary>
-        /// <value>
-        /// The configuration instance.
-        /// </value>
         public static IConfiguration ConfigurationInstance { get { return configurationInstance; } }
     }
 }

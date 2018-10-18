@@ -5,25 +5,25 @@ namespace OrpheusAttributes
     /// <summary>
     /// Composite key attribute, to decorate models that have primary or unique keys that are comprised from than one field.
     /// </summary>
-    /// <seealso cref="OrpheusAttributes.OrpheusBaseAttribute" />
-    /// <seealso cref="OrpheusInterfaces.Interfaces.Attributes.IOrpheusBaseCompositeKeyAttribute" />
     public class OrpheusCompositeKeyBaseAttribute : OrpheusBaseAttribute, IOrpheusBaseCompositeKeyAttribute
     {
-        /// <value>
+        /// <summary>
         /// List of fields that are the key.
-        /// </value>
+        /// </summary>
+        /// <returns>Array of field names</returns>
         public string[] Fields { get; private set; }
 
-        /// <value>
+        /// <summary>
         /// Sort for the key.
-        /// </value>
+        /// </summary>
+        /// <returns>Sort direction</returns>
         public string Sort { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrpheusCompositeKeyBaseAttribute"/> class.
+        /// Create a OrpheusCompositeKeyBaseAttribute.
         /// </summary>
-        /// <param name="fields">The fields.</param>
-        /// <param name="sort">The sort direction.</param>
+        /// <param name="fields">Fields that are the key </param>
+        /// <param name="sort">Sort direction for the key </param>
         public OrpheusCompositeKeyBaseAttribute(string[] fields,string sort = null):base()
         {
             this.Fields = fields;

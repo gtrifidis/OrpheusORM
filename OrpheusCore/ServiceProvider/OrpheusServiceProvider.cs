@@ -41,9 +41,8 @@ namespace OrpheusCore.ServiceProvider
         }
 
         /// <summary>
-        /// Initializes the service provider.
+        /// Initializes services DI.
         /// </summary>
-        /// <param name="services">The services.</param>
         public static void InitializeServiceProvider(IServiceCollection services = null)
         {
             //if no service collection is passed, we are in self service mode.
@@ -75,10 +74,9 @@ namespace OrpheusCore.ServiceProvider
         }
 
         /// <summary>
-        /// Initializes the service collection.
+        /// Initialize the service collection.
         /// </summary>
-        /// <param name="serviceCollection">The service collection.</param>
-        /// <exception cref="Exception">Service [service name] or [implementation] could not be resolved.</exception>
+        /// <param name="serviceCollection"></param>
         public static void InitializeServiceCollection(IServiceCollection serviceCollection)
         {
             foreach (var scItem in ConfigurationManager.Configuration.Services)

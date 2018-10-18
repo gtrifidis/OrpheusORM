@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using OrpheusInterfaces.Core;
+﻿using OrpheusInterfaces.Core;
 using OrpheusInterfaces.Schema;
 using System;
 using System.Collections.Generic;
@@ -18,13 +17,14 @@ namespace OrpheusSQLDDLHelper
         private Dictionary<Type,string> typeMap = new Dictionary<Type,string>();
         private Dictionary<int, string> dbTypeMap = new Dictionary<int, string>();
         private string schemaSeparator = ".";
+        private string dataConnectionString;
         //private ISchemaObject dummySchemaObject;
 
         private IDbCommand selectSchemaObjectQuery;
         private IDbCommand selectNamedSchemaObjectQuery;
         private SqlConnection _secondConnection;
         private SqlConnection _masterConnection;
-
+        
         /// <summary>
         /// A second connection is required to perform database related actions, without affecting the connected state of the main database object.
         /// </summary>
@@ -52,21 +52,14 @@ namespace OrpheusSQLDDLHelper
                         var masterConnectionConfiguration = this.db.DatabaseConnectionConfiguration;
                         if (masterConnectionConfiguration == null)
                             throw new ArgumentNullException("Missing database configuration from the configuration file.\r\nThis is required so Orpheus can perform database schema related actions.");
-
                         masterConnectionString.DataSource = masterConnectionConfiguration.Server;
                         masterConnectionString.InitialCatalog = "master";
                         masterConnectionString.IntegratedSecurity = masterConnectionConfiguration.UseIntegratedSecurityForServiceConnection;
-                        if (!masterConnectionString.IntegratedSecurity)
-                        {
-
-                            if (masterConnectionConfiguration.ServiceUserName != null)
-                                masterConnectionString.UserID = masterConnectionConfiguration.ServiceUserName;
-
-                            if (masterConnectionConfiguration.ServicePassword != null)
-                                masterConnectionString.Password = masterConnectionConfiguration.ServicePassword;
-                        }
+                        if (masterConnectionConfiguration.UserName != null)
+                            masterConnectionString.UserID = masterConnectionConfiguration.UserName;
+                        if (masterConnectionConfiguration.Password != null)
+                            masterConnectionString.Password = masterConnectionConfiguration.Password;
                         this._masterConnection = new SqlConnection(masterConnectionString.ConnectionString);
-                        this.db.Logger.LogDebug($"Master connection string:{this._masterConnection.ConnectionString}");
                     }
                 }
                 return this._masterConnection;
@@ -291,7 +284,6 @@ namespace OrpheusSQLDDLHelper
                 this.executeDDLCommand($"CREATE DATABASE {this.db.DatabaseConnectionConfiguration.DatabaseName}", true, (dbCommand) => {
                     result = true;
                 },(error)=> {
-                    this.db.Logger.LogError(error.Message);
                     result = false;
                 });
             return result;
@@ -345,7 +337,6 @@ namespace OrpheusSQLDDLHelper
                     result = reader.GetValue(0) != null;
                 }
             }, (error) => {
-                this.db.Logger.LogError(error.Message);
                 result = false;
             });
             return result;
@@ -516,19 +507,23 @@ namespace OrpheusSQLDDLHelper
         {
             get
             {
-                var dataConnectionConfiguration = this.db.DatabaseConnectionConfiguration;
-                if (dataConnectionConfiguration == null)
-                    throw new ArgumentNullException("Missing database configuration.\r\nThis is required so Orpheus can connect to the database.");
-                var connBuilder = new SqlConnectionStringBuilder();
-                connBuilder.DataSource = dataConnectionConfiguration.Server;
-                connBuilder.InitialCatalog = dataConnectionConfiguration.DatabaseName;
-                connBuilder.IntegratedSecurity = dataConnectionConfiguration.UseIntegratedSecurity;
-                if (dataConnectionConfiguration.UserName != null)
-                    connBuilder.UserID = dataConnectionConfiguration.UserName;
-                if (dataConnectionConfiguration.Password != null)
-                    connBuilder.Password = dataConnectionConfiguration.Password;
+                if (this.dataConnectionString == null)
+                {
+                    var dataConnectionConfiguration = this.db.DatabaseConnectionConfiguration;
+                    if (dataConnectionConfiguration == null)
+                        throw new ArgumentNullException("Missing database configuration.\r\nThis is required so Orpheus can connect to the database.");
+                    var connBuilder = new SqlConnectionStringBuilder();
+                    connBuilder.DataSource = dataConnectionConfiguration.Server;
+                    connBuilder.InitialCatalog = dataConnectionConfiguration.DatabaseName;
+                    connBuilder.IntegratedSecurity = dataConnectionConfiguration.UseIntegratedSecurity;
+                    if (dataConnectionConfiguration.UserName != null)
+                        connBuilder.UserID = dataConnectionConfiguration.UserName;
+                    if (dataConnectionConfiguration.Password != null)
+                        connBuilder.Password = dataConnectionConfiguration.Password;
 
-                return connBuilder.ConnectionString;
+                    this.dataConnectionString =  connBuilder.ConnectionString;
+                }
+                return this.dataConnectionString;
             }
 
         }
